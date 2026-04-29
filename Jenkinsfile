@@ -126,7 +126,7 @@ pipeline {
         stage('Deploy to staging (VM-front)') {
             steps {
                 withCredentials([
-                    sshUserPrivateKey(credentialsId: 'ssh-front',
+                    sshUserPrivateKey(credentialsId: 'ssh-back',
                                       keyFileVariable: 'SSH_KEY',
                                       usernameVariable: 'SSH_USER'),
                     string(credentialsId: 'vm-front-host',  variable: 'VM_HOST'),
