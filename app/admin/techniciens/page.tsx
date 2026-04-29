@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { API_URL } from "../../lib/api";
 
 type Technicien = {
   id: number;
@@ -10,7 +11,7 @@ type Technicien = {
   phone: string;
 };
 
-const API = "http://localhost:3001/techniciens";
+const API = `${API_URL}/techniciens`;
 
 export default function TechniciensAdmin() {
   const [techniciens, setTechniciens] = useState<Technicien[]>([]);

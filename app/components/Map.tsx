@@ -8,6 +8,7 @@ import {
   Popup,
 } from "react-leaflet";
 import L from "leaflet";
+import { API_URL } from "../lib/api";
 
 type Incident = {
   id: number;
@@ -67,7 +68,7 @@ export default function Map({
   const [interventions, setInterventions] = useState<Intervention[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/interventions")
+    fetch(`${API_URL}/interventions`)
       .then((res) => res.json())
       .then(setInterventions);
   }, []);

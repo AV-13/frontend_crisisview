@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { API_URL } from "../../lib/api";
 
 type Intervention = {
   id: number;
@@ -20,9 +21,9 @@ type Incident = {
   name: string;
 };
 
-const API_INT = "http://localhost:3001/interventions";
-const API_TECHNICIENS = "http://localhost:3001/techniciens";
-const API_INCIDENTS = "http://localhost:3001/incidents";
+const API_INT = `${API_URL}/interventions`;
+const API_TECHNICIENS = `${API_URL}/techniciens`;
+const API_INCIDENTS = `${API_URL}/incidents`;
 
 export default function InterventionsAdmin() {
   const [interventions, setInterventions] = useState<Intervention[]>([]);

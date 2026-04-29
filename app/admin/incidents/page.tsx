@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { API_URL } from "../../lib/api";
 
 type Incident = {
   id: number;
@@ -9,7 +10,7 @@ type Incident = {
   longitude: number;
 };
 
-const API = "http://localhost:3001/incidents";
+const API = `${API_URL}/incidents`;
 
 export default function IncidentAdmin() {
   const [incidents, setIncidents] = useState<Incident[]>([]);
