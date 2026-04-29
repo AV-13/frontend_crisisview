@@ -45,9 +45,11 @@ pipeline {
 
         stage('Build Next.js') {
             steps {
+                sh 'docker stop sonarqube || true'
                 withCredentials([string(credentialsId: 'public-api-url', variable: 'NEXT_PUBLIC_API_URL')]) {
                     sh '''
                         export NEXT_PUBLIC_API_URL
+                        export NODE_OPTIONS="--max-old-space-size=1280"
                         npm run build
                     '''
                 }
@@ -56,6 +58,19 @@ pipeline {
 
         stage('SAST - SonarQube analysis') {
             steps {
+                sh 'docker start sonarqube || true'
+                sh '''
+                    for i in $(seq 1 60); do
+                        if curl -fsS http://sonarqube:9000/api/system/status 2>/dev/null | grep -q "UP"; then
+                            echo "Sonar ready after ${i}s"; exit 0
+                        fi
+                        if curl -fsS http://172.20.10.8:9000/api/system/status 2>/dev/null | grep -q "UP"; then
+                            echo "Sonar ready (host) after ${i}s"; exit 0
+                        fi
+                        sleep 2
+                    done
+                    echo "Sonar not ready in time"; exit 1
+                '''
                 script {
                     def scannerHome = tool name: env.SONAR_SCANNER, type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     withSonarQubeEnv(env.SONAR_SERVER) {
